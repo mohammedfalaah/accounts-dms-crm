@@ -21,9 +21,7 @@ const Context = ({ children }) => {
   
   const [settingsData, setsettingsData] = useState(null);
   const [loading, setloading] = useState(true);
-  const [notification_count, setNotification_count] = useState(0);
-  const [isSpecialization, setisSpecialization] = useState(false);
-  const [specializationData, setspecializationData] = useState(null);
+  
 
   useEffect(() => {
     if (User) {
@@ -75,12 +73,6 @@ const Context = ({ children }) => {
         loading,
         setsettingsData,
         setloading,
-        specializationData,
-        setspecializationData,
-        setisSpecialization,
-        isSpecialization,
-        notification_count,
-        setNotification_count,
         setUrlPath,
       }}
     >
