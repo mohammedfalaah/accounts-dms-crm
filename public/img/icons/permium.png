@@ -1,0 +1,13 @@
+<svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" width="50" height="50">
+	<title>adobe-svg</title>
+	<defs>
+		<image  width="29" height="27" id="img1" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB0AAAAbCAMAAAC3FHQgAAAAAXNSR0IB2cksfwAAAeNQTFRF////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////YrOUWgAAAKF0Uk5TAEKAbRElw//2cIP3q4reof6I6RMX9NMWX48o572LB3H9AQKkXRDN6wYm5DfmyifX3zCQQJwEnlY08zubA+4zSOAObwnsDYa+c5c1tysLgYTHurVpFeqxY2dV/Hza+kVgd+/OCH1h6M8tImsMrxkF0BsPyxKMyD+tPaflkaga4VRG4y4Yk/kx+9Z1NmgpalqgPLztTfX40rSO3Qo5FPFcmm4gwYsrAAACLElEQVR4nHXSe0hTcRQH8O93LbViCbJqZASJK+0BMp3E6EVKZloN7K+spEwYRrkwalDYH4OkF7mkB5YwC/+pf5JMBEnFNkKGWzkMbWvLssfU2R+rhbVc926zx1rnj3vP+X0u93LOuYQYJOKCDIlXMZ2bSL/O6nwyiAXfkj+LhYzBEFLDEvqjKifpg+JT2gdRl5JjgGSh7G1El5PjS7wZ/CF1i6oUnh1G9rtlfp+oa4RyEPJ00hH5pGpo7QBWzHxcN+Uh1HyeM+7Fer74EoqoZiDPCmx4uYp9xGbac3uAzEnVa09EC+hTdAHzkvODRJE9t1M4K+4u6Ih1U+JWtgM7vdI53PFYPuMDSnuntz+M6a7ecEC47e4oYVl7/CB+h5J7aMt/JWS+Ca07duiUaF3ASgpdguWkx4KKNu2QLYLS/XziQuWUo3BY6CiHbApD52+rvBHR6uYip/fIHW0qG4VpHOt/pmNDVrYjOqvjfKq5jBO+RY6e6BaK+6qvhE6a9FaLUBiaD9djq7XW/D62I/W21n00LtZNiK8+1WC4e0AYVN3sBmEcC6zuHN2ScktIJTAf/J403eL9pTiabqzjoFNmwcUzSWfNrnO10X8g1uOmzNZ6Gs7rYWJLXvBBAH8pGnkzxU2VRkHqq0a64jQjWCPrbzOk1Wx0hyRvEKdAuccOk+U+rp6exL/aNHoJe0P3KtRVSKC4/UjY8PWRC0ioyNJ0awoP4T+K0jJes/1R/wS+PbSgiiElXAAAAABJRU5ErkJggg=="/>
+	</defs>
+	<style>
+		.s0 { fill: #217b83 } 
+	</style>
+	<g id="adobe">
+		<path id="Ellipse_208" class="s0" d="m24.9 50c-13.8 0-24.9-11.2-24.9-25 0-13.8 11.1-25 24.9-25 13.8 0 24.9 11.2 24.9 25 0 13.8-11.1 25-24.9 25z"/>
+		<use id="premium-svgrepo-com" href="#img1" x="10" y="13"/>
+	</g>
+</svg>

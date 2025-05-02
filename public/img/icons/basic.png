@@ -1,0 +1,13 @@
+<svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" width="50" height="50">
+	<title>adobe-svg</title>
+	<defs>
+		<image  width="32" height="32" id="img1" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAAXNSR0IB2cksfwAAAgpQTFRF////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////tpz+NAAAAK50Uk5TAAcPDEve73IULcH37uX+zUEBLpj264oaDWbc+7tAHIvynwmJ5P+mMQJt18MGAyWo6YYEUczOVUOt/N11PttdBdHgGZ7wjx1jwhHxyCauL4iMCJVl6pkVnETZ0g5xsywzvuIr9fO1IT/mUhCN+qMkIiNieKp6FmD5vzzT/c9aF8BF+AppbyeRC9pYxUai4yC0cBOyOKe3KPTtg+gpH34bX8s9uGvKT8lTMmqkgiow6UoGMwAAAkBJREFUeJxjZEAFjIz/0ARQeMyMIPADpwJORih4j1WBECMCPMZQIMjL+F6I8SHIAUoQNTdQFGgwMj6R/cR/BczRZWT8xs3IeA6hgNGI8ZY6422EzYJqIDOO/4Mo0OX/+UGCkfEgqvfMOW+rHf7/F6jACajUinEXAzrgsD/63/YgB6Mn4201xi0Y0iAgbnaQzYqR0e8qkpuRgCCv0T4hZWZGVDcjAMxfjKhuhgcP3F+MqG6GAGR/wUIS4ubvYDaKvxgDGRnP3wMLX7Hb7vVzE0PY7fe/bb6C/WWk9usoo6fAA8VHoutB/OgXd1m1eTZweDIuAnvDj3FdMCMjg7gK0MGMs0BCOtYPjzFEMb4AK89iXBXOyLgP5Ib8JeYMVwMngHVFcLxaCmJIRO27l7rl1XuoI52+3VG1ZuyG+5Kp5BM/I2M7ki+UHpUB7WmGyvvt0RfUWfQC4gsG2cQmsItFhc5EMW4CBmj8Tc/nl8+CEyajTCojR8p3hefTQLxA47trg/6rMX6d5fRpO0ig/ZH85HeMRuE7buUzloKNy5N7sLKike+tJjhi+hg/fZMEepNByeoEYy7jVFB8CorlMs77dRkkPa0b6Kq1uyCOlGhknP8/ORUpsuYwPjn5Li0J7gvBH21v3vIIV8Lk5892VP2c9x85snRLGJtlkuJAYkbh++/WX+r+D40shLFLGSezZD3YkdkccCwjHJEykCye+P/jt3euSfwmihMYsCpgYHBLfVsj9OYdshCqAgb7XMZolMzNAAB6HL+H2Al++QAAAABJRU5ErkJggg=="/>
+	</defs>
+	<style>
+		.s0 { fill: #217b83 } 
+	</style>
+	<g id="adobe">
+		<path id="Ellipse_208" class="s0" d="m24.9 50c-13.8 0-24.9-11.2-24.9-25 0-13.8 11.1-25 24.9-25 13.8 0 24.9 11.2 24.9 25 0 13.8-11.1 25-24.9 25z"/>
+		<use id="layers" href="#img1" x="9" y="9"/>
+	</g>
+</svg>

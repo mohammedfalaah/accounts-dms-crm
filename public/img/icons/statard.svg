@@ -1,0 +1,13 @@
+<svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" width="50" height="50">
+	<title>adobe-svg</title>
+	<defs>
+		<image  width="24" height="28" id="img1" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAcCAMAAABMOI/cAAAAAXNSR0IB2cksfwAAAYNQTFRF////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////ZVRnigAAAIF0Uk5TABBIVTwGJtLYqqvNrw8TwuSGw1AJsKKUbAS5e5NtfepRPZ+A3caxKCDlCxZmZAIqoagHJYiNdQwIHHNeVgUtpxRaUwM6s34BeOPOxLghCo4ph9wbMrrBgk2EmQ47Pyci20nZmGcskpXmIxrhFYXnlxGkNXIYtZzHyrwvDXrau9Qw1XntKQAAATtJREFUeJxjZAABRkZGBhhgZPwNpkAEG5IEkMn4GSrBB2S/h+vgY2F8C5EQAWlGSDCIM74AS0j+ZXkt9g1JQobxMVhCDmQq410MCT4xoJEijDcxJDQYGa8xoABkCW3GjxBBAcZLKBL6MH98FDhHnFE4JYwhRjEyPpM+gSJh+UQWLPGXhfEwhXbYfeKHOvfJGxQJh8N2EAlGkDWMl59jGOUOCtB/zIyboRLu7HdAwrfteK5pb2CQtGBkXAuRCIH6Y63f8+MMDBGMh+2WQSSioRJHhU4zMMSDLFqNakcyUO1JC8aZFgaMjFmMjFPgErlvHhsxPhae7csqx8hQuNRNDCbB+JVni++tLww86l2MDNo2AojU1l/EeFhQl5HxwmagmJ7uMriE/cX/eSsiJ+c1MCAUQ0HONMHcdZcYGAD3ZmgDLhCnHAAAAABJRU5ErkJggg=="/>
+	</defs>
+	<style>
+		.s0 { fill: #217b83 } 
+	</style>
+	<g id="adobe">
+		<path id="Ellipse_208" class="s0" d="m24.9 50c-13.8 0-24.9-11.2-24.9-25 0-13.8 11.1-25 24.9-25 13.8 0 24.9 11.2 24.9 25 0 13.8-11.1 25-24.9 25z"/>
+		<use id="file" href="#img1" x="13" y="11"/>
+	</g>
+</svg>
