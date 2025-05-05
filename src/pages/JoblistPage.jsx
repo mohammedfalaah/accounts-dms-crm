@@ -57,9 +57,13 @@ function JoblistPage() {
     try {
       if (isEditMode) {
        const response = await ApiCall("put",`projects/${currentProject._id}`, currentProject);
+       console.log(response);
+       
       } else {
         // Add new project
-       const response = await ApiCall("post",`projects`, currentProject);
+       const response = await ApiCall("put",`projects`, currentProject);
+       console.log(response);
+       
       }
       
       // Refresh the list and close modal
@@ -111,7 +115,7 @@ function JoblistPage() {
   const getProjectList = async (page = 1, limit = 10) => {
     try {
       const response = await ApiCall("get", `projects?page=${page}&limit=${limit}`);
-      console.log(response, "====");
+      console.log(response, "====getProjectListgetProjectList");
   
       const data = response.message.data;
   
@@ -149,7 +153,7 @@ useEffect(() => {
               <div className="col-lg-12">
                 <div className="card border-0 custom-margin">
                   <div className="card-header">
-                    <h6>Job List</h6>
+                    <h6>Project List</h6>
                   </div>
                   <div style={{float:'right'}}>
                   <button style={{float:'right'}} 
@@ -306,6 +310,18 @@ useEffect(() => {
                     id="name" 
                     name="name"
                     value={currentProject.name}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="name" className="form-label">Client ID</label>
+                  <input 
+                    type="number" 
+                    className="form-control" 
+                    id="name" 
+                    name="name"
+                    value={currentProject.clientid}
                     onChange={handleInputChange}
                     required
                   />

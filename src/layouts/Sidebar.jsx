@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from "react";
 import { ContextDatas } from "../services/Context";
 import {
   basePath,
+  clientlistPath,
   projectlistPath,
  
  
@@ -71,13 +72,13 @@ function Sidebar() {
                   </Link>
                 </li>
 
-                <li className={urlPath.includes("patients") ? "active" : ""}>
+                <li className={urlPath.includes("client-list") ? "active" : ""}>
                   <Link
-                    // to={basePath + patientsPath}
-                    // onClick={() => setUrlPath(basePath + patientsPath)}
+                    to={basePath + clientlistPath}
+                    onClick={() => setUrlPath(basePath + clientlistPath)}
                   >
                     <span className="nav-icon uil uil-users-alt" />
-                    <span className="menu-text">Customers</span>
+                    <span className="menu-text">Clients</span>
                   </Link>
                 </li>
 

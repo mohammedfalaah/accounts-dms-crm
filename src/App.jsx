@@ -8,12 +8,14 @@ import PageDashboard from "./pages/private/Dasboard/PageDashboard";
 import PageNotFound from "./pages/public/PageNotFound";
 import {
   basePath,
+  clientlistPath,
   loginPath,
   projectlistPath,
  
 } from "./services/UrlPaths";
 import PrivateRoute from "./utils/PrivateRoute";
 import JoblistPage from "./pages/JoblistPage";
+import ClientPage from "./pages/public/ClientPage";
 function App() {
   return (
     <div>
@@ -30,6 +32,7 @@ function App() {
         >
           <Route index element={<PageDashboard />} />
           <Route path={projectlistPath} element={<JoblistPage />} />
+          <Route path={clientlistPath} element={<ClientPage />} />
 
          
         
