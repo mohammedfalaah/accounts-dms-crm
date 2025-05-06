@@ -41,17 +41,26 @@ function PageLogin() {
   const Login = async (values) => {
     setpageLoading(true);
     const response = await ApiCall("post", LoginUrl, values);
-
+    console.log(response,"response-------");
+    
     setpageLoading(false);
   
     if (response?.status) {
-      const data = response?.message?.data ?? null;
-      setloading(false);
+      const data = response.message?.data;
+      const role = response.message?.data?.userDetails?.role;
+      console.log(role,"rolerolerole");
+      
   
+      if (role !== "accounts" && "district-manager") {
+        ShowMessage("Access Denied: Only accounts and district-manager can log in.", "error");
+        return;
+      }
+  
+      setloading(false);
       ShowMessage("Successfully Logged In", "success");
-     console.log(response.message.data.token,"====");
-     setUser(response.message.data.token)
-     localStorage.setItem("access", response.message.data.token ?? null);
+  
+      setUser(data.token);
+      localStorage.setItem("access", data.token ?? null);
   
       setUrlPath(basePath);
       return navigate(basePath);
@@ -59,6 +68,8 @@ function PageLogin() {
       ShowMessage("Login Failed", "error");
     }
   };
+  
+  
   
 
   return (

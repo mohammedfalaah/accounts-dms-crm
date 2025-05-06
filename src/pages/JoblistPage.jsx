@@ -6,7 +6,8 @@ function JoblistPage() {
   const [projectsList, setProjectsList] = useState([]);
   const [isEditMode, setIsEditMode] = useState(false);
   const [showModal, setShowModal] = useState(false);
-
+  const [showEmiModal, setShowEmiModal] = useState(false);
+  const [selectedProjectForEmi, setSelectedProjectForEmi] = useState(null);
   const { mobileSide, setmobileSide } = useContext(ContextDatas);
   const [pagination, setPagination] = useState({
     page: 1,
@@ -204,14 +205,57 @@ useEffect(() => {
       <td>{project.districtManager?.email || '-'}</td>
       <td>-</td> {/* Block status not present in the response */}
       <td>
-                         <div className="table-actions">
-  <a onClick={() => handleEdit(project)}>
-    <img className="svg" src="img/svg/edit.svg" alt="edit" />
-  </a>
+        <div className="dropdown">
+        <button
+                                        className="btn btn-sm btn-light"
+                                        type="button"
+                                        // id={`dropdown-${client._id}`}
+                                        data-bs-toggle="dropdown"
+                                        aria-expanded="false"
+                                      >
+                                        <i className="fas fa-ellipsis-v"></i>
+                                      </button>
+                                      <ul className="dropdown-menu" aria-labelledby={`dropdown-${project._id}`}>
+                                        <li>
+                                          <button className="dropdown-item" onClick={() => handleEdit(project)}>
+                                            Edit
+
+                                          </button>
+
+                                        </li>
+                                        <li>
+                                          <button className="dropdown-item">
+                                            View
+                                          </button>
+                                        </li>
+                                        <li>
+  <button 
+    className="dropdown-item" 
+    onClick={() => {
+      setSelectedProjectForEmi(project);
+      setShowEmiModal(true);
+    }}
+  >
+    EMI Plan
+  </button>
+</li>
+
+                                        <li>
+                                          <button className="dropdown-item" onClick={() => handleDelete(project._id)}>
+                                            Delete
+
+                                          </button>
+                                        </li>
+                                      </ul>
+
+
+        </div>
+                         {/* <div className="table-actions">
+ 
   <a onClick={() => handleDelete(project._id)} >
     <img className="svg" src="img/svg/trash-2.svg" alt />
   </a>
-</div>
+</div> */}
 
                           </td>
     </tr>
@@ -422,6 +466,46 @@ useEffect(() => {
         </div>
       </div>
       {showModal && <div className="modal-backdrop fade show"></div>}
+{/* EMI MODAL */}
+{/* EMI Plan Modal */}
+<div 
+  className={`modal fade ${showEmiModal ? 'show' : ''}`} 
+  style={{ display: showEmiModal ? 'block' : 'none' }}
+  tabIndex={-1}
+>
+  <div className="modal-dialog modal-dialog-centered">
+    <div className="modal-content">
+      <div className="modal-header">
+        <h5 className="modal-title">EMI Plan</h5>
+        <button 
+          type="button" 
+          className="btn-close" 
+          onClick={() => setShowEmiModal(false)}
+          aria-label="Close"
+        />
+      </div>
+      <div className="modal-body">
+        {/* You can show project name or custom EMI details here */}
+        <p>Project: <strong>{selectedProjectForEmi?.clientDetails?.name || '-'}</strong></p>
+        <p>Start Date: {new Date(selectedProjectForEmi?.startDate).toLocaleDateString()}</p>
+        {/* Add EMI form or details here */}
+        <div className="mb-3">
+          <label className="form-label">EMI Amount</label>
+          <input type="number" className="form-control" />
+        </div>
+        <div className="mb-3">
+          <label className="form-label">Installments</label>
+          <input type="number" className="form-control" />
+        </div>
+      </div>
+      <div className="modal-footer">
+        <button className="btn btn-secondary" onClick={() => setShowEmiModal(false)}>Close</button>
+        <button className="btn btn-primary">Save EMI Plan</button>
+      </div>
+    </div>
+  </div>
+</div>
+{showEmiModal && <div className="modal-backdrop fade show"></div>}
 
     </>
   );

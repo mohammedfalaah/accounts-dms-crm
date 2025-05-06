@@ -14,11 +14,10 @@ const Context = ({ children }) => {
   const [urlPath, setUrlPath] = useState(window.location.pathname ?? "/");
   const [mobileSide, setmobileSide] = useState(false);
   const [User, setUser] = useState(
-    localStorage.getItem("access")
+  localStorage.getItem("access")
       ? jwtDecode(localStorage.getItem("access"))
       : null
   );
-  
   const [settingsData, setsettingsData] = useState(null);
   const [loading, setloading] = useState(true);
   
@@ -50,12 +49,6 @@ const Context = ({ children }) => {
       return navigate(basePath + loginPath);
     }
   };
-
-
-
-
-
-
 
   useEffect(() => {
     window.scrollTo(0, 0);
