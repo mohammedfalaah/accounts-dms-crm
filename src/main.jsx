@@ -20,21 +20,4 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     </Context>
   </BrowserRouter>
 );
-// import React from "react";
-// import ReactDOM from "react-dom/client";
-// import App from "./App.jsx";
-// import Context from "./services/Context.jsx";
-// import { BrowserRouter } from "react-router-dom";
-// import "primeflex/primeflex.css";
-// import "primereact/resources/primereact.css";
-// import "primereact/resources/themes/saga-blue/theme.css";
 
-// ReactDOM.createRoot(document.getElementById("root")).render(
-//   <React.StrictMode>
-//     <Context>
-//       <BrowserRouter>
-//         <App />
-//       </BrowserRouter>
-//     </Context>
-//   </React.StrictMode>
-// );

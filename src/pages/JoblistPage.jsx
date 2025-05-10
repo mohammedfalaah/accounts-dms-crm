@@ -15,25 +15,78 @@ function JoblistPage() {
     totalDocs: 0,
     totalPages: 1,
     hasPrevPage: false,
-    hasNextPage: false
+    hasNextPage: false,
   });
+  const [historyData, setHistoryData] = useState(false);
+  const [historyModal, setHistoryModal] = useState(false);
   const [currentProject, setCurrentProject] = useState({
-    _id: '',
+    _id: "",
     name: "",
     startedDate: "",
-    status: "active", // active, completed, blocked
+    status: "active",
     scheme: "",
     district: "",
     handledDM: "",
     handledAccountant: "",
-    isBlocked: false
+    isBlocked: false,
   });
+  const [emiData, setEmiData] = useState(null);
+  const [selectedProjectId, setSelectedProjectId] = useState(null);
+
+  const handleHistoryClick = async (projectId) => {
+    setHistoryModal(true);
+
+    try {
+      const response = await ApiCall(
+        "get",
+        `monthly-emi/all?projectId=${projectId}`
+      );
+      console.log(response,"history");
+      
+setHistoryData(response?.message?.data?.docs || []);
+    } catch (error) {
+      console.error("Error fetching EMI history:", error);
+      setHistoryData([]);
+    }
+  };
+
+  useEffect(() => {
+    const fetchEmiData = async () => {
+      if (selectedProjectForEmi?._id && showEmiModal) {
+        try {
+          const response = await ApiCall(
+            "get",
+            `monthly-emi?projectId=${selectedProjectForEmi._id}`
+          );
+          setEmiData(response.message.data);
+        } catch (error) {
+          console.error("Error fetching EMI details:", error);
+        }
+      }
+    };
+
+    fetchEmiData();
+  }, [selectedProjectForEmi, showEmiModal]);
+
+
+  const handleMarkAsPaid = async (projectId) => {
+  try {
+    const response = await ApiCall("put", "monthly-emi", { projectId });
+    console.log("Marked as paid:", response);
+    
+    // Optionally refresh EMI data
+    // handleHistoryClick(projectId);
+  } catch (error) {
+    console.error("Error marking as paid:", error);
+  }
+};
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setCurrentProject({
       ...currentProject,
-      [name]: value
+      [name]: value,
     });
   };
 
@@ -47,7 +100,7 @@ function JoblistPage() {
       district: project.district,
       handledDM: project.handledDM,
       handledAccountant: project.handledAccountant,
-      isBlocked: project.isBlocked
+      isBlocked: project.isBlocked,
     });
     setIsEditMode(true);
     setShowModal(true);
@@ -57,29 +110,35 @@ function JoblistPage() {
     e.preventDefault();
     try {
       if (isEditMode) {
-       const response = await ApiCall("put",`projects/${currentProject._id}`, currentProject);
-       console.log(response);
-       
+        const response = await ApiCall(
+          "put",
+          `projects/${currentProject._id}`,
+          currentProject
+        );
+        console.log(response);
       } else {
         // Add new project
-       const response = await ApiCall("put",`projects`, currentProject);
-       console.log(response);
-       
+        const response = await ApiCall("put", `projects`, currentProject);
+        console.log(response);
       }
-      
+
       // Refresh the list and close modal
       getProjectList(pagination.page, pagination.limit);
       setShowModal(false);
       resetForm();
     } catch (error) {
-      console.error('Error saving project:', error);
-      setError(`Error ${isEditMode ? 'updating' : 'adding'} project: ${error.response?.data?.message || error.message}`);
+      console.error("Error saving project:", error);
+      setError(
+        `Error ${isEditMode ? "updating" : "adding"} project: ${
+          error.response?.data?.message || error.message
+        }`
+      );
     }
   };
 
   const resetForm = () => {
     setCurrentProject({
-      _id: '',
+      _id: "",
       name: "",
       startedDate: "",
       status: "active",
@@ -87,11 +146,10 @@ function JoblistPage() {
       district: "",
       handledDM: "",
       handledAccountant: "",
-      isBlocked: false
+      isBlocked: false,
     });
     setIsEditMode(false);
   };
-
 
   const handlePageChange = (newPage) => {
     if (newPage >= 1 && newPage <= pagination.totalPages) {
@@ -100,26 +158,28 @@ function JoblistPage() {
   };
 
   const handleDelete = async (id) => {
-    if (window.confirm('Are you sure you want to delete this project?')) {
+    if (window.confirm("Are you sure you want to delete this project?")) {
       try {
-        const response = await ApiCall("delete",`projects/${id}`);
-        console.log(response, "deklete")
+        const response = await ApiCall("delete", `projects/${id}`);
+        console.log(response, "deklete");
         getProjectList(pagination.page, pagination.limit); // Refresh the current page
       } catch (error) {
-        console.error('Error deleting project:', error);
-        setError('Error deleting project');
+        console.error("Error deleting project:", error);
+        setError("Error deleting project");
       }
     }
   };
 
-
   const getProjectList = async (page = 1, limit = 10) => {
     try {
-      const response = await ApiCall("get", `projects?page=${page}&limit=${limit}`);
+      const response = await ApiCall(
+        "get",
+        `projects?page=${page}&limit=${limit}`
+      );
       console.log(response, "====getProjectListgetProjectList");
-  
+
       const data = response.message.data;
-  
+
       setProjectsList(data.docs);
       setPagination({
         page: data.page,
@@ -127,23 +187,19 @@ function JoblistPage() {
         totalDocs: data.totalDocs,
         totalPages: data.totalPages,
         hasPrevPage: data.hasPrevPage,
-        hasNextPage: data.hasNextPage
+        hasNextPage: data.hasNextPage,
       });
-      
+
       // Optional: Clear error if previously set
       // setError(null);
-      
     } catch (error) {
       console.error("Error fetching project list:", error);
-      // Optional: Set error state here if needed
-      // setError(error.message || "An error occurred");
     }
   };
-  
-useEffect(() => {
-  getProjectList();
-}, [])
 
+  useEffect(() => {
+    getProjectList();
+  }, []);
 
   return (
     <>
@@ -156,19 +212,19 @@ useEffect(() => {
                   <div className="card-header">
                     <h6>Project List</h6>
                   </div>
-                  <div style={{float:'right'}}>
-                  <button style={{float:'right'}} 
-                        className="btn mt-10 btn-primary me-2" 
-                        onClick={() => {
-                          resetForm();
-                          setShowModal(true);
-                        }}
-                      >
-                        Add New Project
-                      </button>
-
+                  <div style={{ float: "right" }}>
+                    <button
+                      style={{ float: "right" }}
+                      className="btn mt-10 btn-primary me-2"
+                      onClick={() => {
+                        resetForm();
+                        setShowModal(true);
+                      }}
+                    >
+                      Add New Project
+                    </button>
                   </div>
-               
+
                   <div className="card-body p-0">
                     <div className="tab-content">
                       <div className="tab-pane fade active show">
@@ -184,29 +240,52 @@ useEffect(() => {
                                 <th>District</th>
                                 <th>Handled DM</th>
                                 <th>Handled Accountant</th>
-                                <th>Block Status</th>
+                                {/* <th>Block Status</th> */}
                                 <th>Actions</th>
                               </tr>
                             </thead>
                             <tbody>
-  {projectsList.map((project, index) => (
-    <tr key={project._id}>
-      <td>{(pagination.page - 1) * pagination.limit + index + 1}</td>
-      <td>{project.clientDetails?.name || '-'}</td>
-      <td>{new Date(project.startDate).toLocaleDateString()}</td>
-      <td>
-        <span className={`badge bg-${project.status === 'assigned' ? 'warning' : project.status === 'active' ? 'success' : 'secondary'}`}>
-          {project.status}
-        </span>
-      </td>
-      <td>{project.planName || '-'}</td>
-      <td>{project.clientDetails?.district || '-'}</td>
-      <td>{project.districtManager?.name || '-'}</td>
-      <td>{project.districtManager?.email || '-'}</td>
-      <td>-</td> {/* Block status not present in the response */}
-      <td>
-        <div className="dropdown">
-        <button
+                              {projectsList.map((project, index) => (
+                                <tr key={project._id}>
+                                  <td>
+                                    {(pagination.page - 1) * pagination.limit +
+                                      index +
+                                      1}
+                                  </td>
+                                  <td>{project.clientDetails?.name || "-"}</td>
+                                  <td>
+                                    {new Date(
+                                      project.startDate
+                                    ).toLocaleDateString()}
+                                  </td>
+                                  <td>
+                                    <span
+                                      className={`badge bg-${
+                                        project.status === "assigned"
+                                          ? "warning"
+                                          : project.status === "active"
+                                          ? "success"
+                                          : "danger"
+                                      }`}
+                                    >
+                                      {project.status}
+                                    </span>
+                                  </td>
+                                  <td>{project.planName || "-"}</td>
+                                  <td>
+                                    {project.clientDetails?.district || "-"}
+                                  </td>
+                                  <td>
+                                    {project.districtManager?.name || "-"}
+                                  </td>
+                                  <td>
+                                    {project.districtManager?.email || "-"}
+                                  </td>
+                                  {/* <td>-</td>  */}
+                                  {/* Block status not present in the response */}
+                                  <td>
+                                    <div className="dropdown">
+                                      <button
                                         className="btn btn-sm btn-light"
                                         type="button"
                                         // id={`dropdown-${client._id}`}
@@ -215,13 +294,17 @@ useEffect(() => {
                                       >
                                         <i className="fas fa-ellipsis-v"></i>
                                       </button>
-                                      <ul className="dropdown-menu" aria-labelledby={`dropdown-${project._id}`}>
+                                      <ul
+                                        className="dropdown-menu"
+                                        aria-labelledby={`dropdown-${project._id}`}
+                                      >
                                         <li>
-                                          <button className="dropdown-item" onClick={() => handleEdit(project)}>
+                                          <button
+                                            className="dropdown-item"
+                                            onClick={() => handleEdit(project)}
+                                          >
                                             Edit
-
                                           </button>
-
                                         </li>
                                         <li>
                                           <button className="dropdown-item">
@@ -229,87 +312,121 @@ useEffect(() => {
                                           </button>
                                         </li>
                                         <li>
-  <button 
-    className="dropdown-item" 
-    onClick={() => {
-      setSelectedProjectForEmi(project);
-      setShowEmiModal(true);
-    }}
-  >
-    EMI Plan
-  </button>
-</li>
+                                          <button
+                                            className="dropdown-item"
+                                            onClick={() => {
+                                              setSelectedProjectForEmi(project);
+                                              setShowEmiModal(true);
+                                            }}
+                                          >
+                                            EMI Plan
+                                          </button>
+                                        </li>
+                                        <li>
+                                          <button
+                                            className="dropdown-item"
+                                            onClick={() => {
+                                              handleHistoryClick(project._id);
+                                            }}
+                                          >
+                                            EMI History
+                                          </button>
+                                        </li>
 
                                         <li>
-                                          <button className="dropdown-item" onClick={() => handleDelete(project._id)}>
+                                          <button
+                                            className="dropdown-item"
+                                            onClick={() =>
+                                              handleDelete(project._id)
+                                            }
+                                          >
                                             Delete
-
                                           </button>
                                         </li>
                                       </ul>
-
-
-        </div>
-                         {/* <div className="table-actions">
- 
-  <a onClick={() => handleDelete(project._id)} >
-    <img className="svg" src="img/svg/trash-2.svg" alt />
-  </a>
-</div> */}
-
-                          </td>
-    </tr>
-  ))}
-</tbody>
-
+                                    </div>
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
                           </table>
                         </div>
                         <div className="card-footer">
-                      <div className="row align-items-center">
-                        <div className="col-md-6">
-                          <div>Showing {((pagination.page - 1) * pagination.limit) + 1} to {Math.min(pagination.page * pagination.limit, pagination.totalDocs)} of {pagination.totalDocs} entries</div>
-                        </div>
-                        <div className="col-md-6">
-                          <nav aria-label="Page navigation">
-                            <ul className="pagination justify-content-end mb-0">
-                              <li className={`page-item ${!pagination.hasPrevPage ? 'disabled' : ''}`}>
-                                <button 
-                                  className="page-link" 
-                                  onClick={() => handlePageChange(pagination.page - 1)}
-                                  disabled={!pagination.hasPrevPage}
-                                >
-                                  Previous
-                                </button>
-                              </li>
-                              
-                              {Array.from({ length: pagination.totalPages }, (_, i) => i + 1).map(pageNum => (
-                                <li 
-                                  key={pageNum} 
-                                  className={`page-item ${pagination.page === pageNum ? 'active' : ''}`}
-                                >
-                                  <button 
-                                    className="page-link" 
-                                    onClick={() => handlePageChange(pageNum)}
+                          <div className="row align-items-center">
+                            <div className="col-md-6">
+                              <div>
+                                Showing{" "}
+                                {(pagination.page - 1) * pagination.limit + 1}{" "}
+                                to{" "}
+                                {Math.min(
+                                  pagination.page * pagination.limit,
+                                  pagination.totalDocs
+                                )}{" "}
+                                of {pagination.totalDocs} entries
+                              </div>
+                            </div>
+                            <div className="col-md-6">
+                              <nav aria-label="Page navigation">
+                                <ul className="pagination justify-content-end mb-0">
+                                  <li
+                                    className={`page-item ${
+                                      !pagination.hasPrevPage ? "disabled" : ""
+                                    }`}
                                   >
-                                    {pageNum}
-                                  </button>
-                                </li>
-                              ))}
-                              
-                              <li className={`page-item ${!pagination.hasNextPage ? 'disabled' : ''}`}>
-                                <button 
-                                  className="page-link" 
-                                  onClick={() => handlePageChange(pagination.page + 1)}
-                                  disabled={!pagination.hasNextPage}
-                                >
-                                  Next
-                                </button>
-                              </li>
-                            </ul>
-                          </nav>
+                                    <button
+                                      className="page-link"
+                                      onClick={() =>
+                                        handlePageChange(pagination.page - 1)
+                                      }
+                                      disabled={!pagination.hasPrevPage}
+                                    >
+                                      Previous
+                                    </button>
+                                  </li>
+
+                                  {Array.from(
+                                    { length: pagination.totalPages },
+                                    (_, i) => i + 1
+                                  ).map((pageNum) => (
+                                    <li
+                                      key={pageNum}
+                                      className={`page-item ${
+                                        pagination.page === pageNum
+                                          ? "active"
+                                          : ""
+                                      }`}
+                                    >
+                                      <button
+                                        className="page-link"
+                                        onClick={() =>
+                                          handlePageChange(pageNum)
+                                        }
+                                      >
+                                        {pageNum}
+                                      </button>
+                                    </li>
+                                  ))}
+
+                                  <li
+                                    className={`page-item ${
+                                      !pagination.hasNextPage ? "disabled" : ""
+                                    }`}
+                                  >
+                                    <button
+                                      className="page-link"
+                                      onClick={() =>
+                                        handlePageChange(pagination.page + 1)
+                                      }
+                                      disabled={!pagination.hasNextPage}
+                                    >
+                                      Next
+                                    </button>
+                                  </li>
+                                </ul>
+                              </nav>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
                       </div>
                     </div>
                   </div>
@@ -319,24 +436,24 @@ useEffect(() => {
           </div>
         </div>
       </div>
-        {/* Add/Edit Project Modal */}
-        <div 
-        className={`modal fade ${showModal ? 'show' : ''}`} 
-        style={{ display: showModal ? 'block' : 'none' }}
-        id="projectModal" 
-        tabIndex={-1} 
-        aria-labelledby="projectModalLabel" 
+      {/* Add/Edit Project Modal */}
+      <div
+        className={`modal fade ${showModal ? "show" : ""}`}
+        style={{ display: showModal ? "block" : "none" }}
+        id="projectModal"
+        tabIndex={-1}
+        aria-labelledby="projectModalLabel"
         aria-hidden={!showModal}
       >
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title" id="projectModalLabel">
-                {isEditMode ? 'Edit Project' : 'Add New Project'}
+                {isEditMode ? "Edit Project" : "Add New Project"}
               </h5>
-              <button 
-                type="button" 
-                className="btn-close" 
+              <button
+                type="button"
+                className="btn-close"
                 onClick={() => {
                   setShowModal(false);
                   resetForm();
@@ -347,11 +464,13 @@ useEffect(() => {
             <div className="modal-body">
               <form onSubmit={handleSubmit}>
                 <div className="mb-3">
-                  <label htmlFor="name" className="form-label">Project Name</label>
-                  <input 
-                    type="text" 
-                    className="form-control" 
-                    id="name" 
+                  <label htmlFor="name" className="form-label">
+                    Project Name
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="name"
                     name="name"
                     value={currentProject.name}
                     onChange={handleInputChange}
@@ -359,11 +478,13 @@ useEffect(() => {
                   />
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="name" className="form-label">Client ID</label>
-                  <input 
-                    type="number" 
-                    className="form-control" 
-                    id="name" 
+                  <label htmlFor="name" className="form-label">
+                    Client ID
+                  </label>
+                  <input
+                    type="number"
+                    className="form-control"
+                    id="name"
                     name="name"
                     value={currentProject.clientid}
                     onChange={handleInputChange}
@@ -371,11 +492,13 @@ useEffect(() => {
                   />
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="startedDate" className="form-label">Started Date</label>
-                  <input 
-                    type="date" 
-                    className="form-control" 
-                    id="startedDate" 
+                  <label htmlFor="startedDate" className="form-label">
+                    Started Date
+                  </label>
+                  <input
+                    type="date"
+                    className="form-control"
+                    id="startedDate"
                     name="startedDate"
                     value={currentProject.startedDate}
                     onChange={handleInputChange}
@@ -383,7 +506,9 @@ useEffect(() => {
                   />
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="status" className="form-label">Status</label>
+                  <label htmlFor="status" className="form-label">
+                    Status
+                  </label>
                   <select
                     className="form-select"
                     id="status"
@@ -398,11 +523,13 @@ useEffect(() => {
                   </select>
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="scheme" className="form-label">Scheme</label>
-                  <input 
-                    type="text" 
-                    className="form-control" 
-                    id="scheme" 
+                  <label htmlFor="scheme" className="form-label">
+                    Scheme
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="scheme"
                     name="scheme"
                     value={currentProject.scheme}
                     onChange={handleInputChange}
@@ -410,11 +537,13 @@ useEffect(() => {
                   />
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="district" className="form-label">District</label>
-                  <input 
-                    type="text" 
-                    className="form-control" 
-                    id="district" 
+                  <label htmlFor="district" className="form-label">
+                    District
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="district"
                     name="district"
                     value={currentProject.district}
                     onChange={handleInputChange}
@@ -422,11 +551,13 @@ useEffect(() => {
                   />
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="handledDM" className="form-label">Handled DM</label>
-                  <input 
-                    type="text" 
-                    className="form-control" 
-                    id="handledDM" 
+                  <label htmlFor="handledDM" className="form-label">
+                    Handled DM
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="handledDM"
                     name="handledDM"
                     value={currentProject.handledDM}
                     onChange={handleInputChange}
@@ -434,11 +565,13 @@ useEffect(() => {
                   />
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="handledAccountant" className="form-label">Handled Accountant</label>
-                  <input 
-                    type="text" 
-                    className="form-control" 
-                    id="handledAccountant" 
+                  <label htmlFor="handledAccountant" className="form-label">
+                    Handled Accountant
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="handledAccountant"
                     name="handledAccountant"
                     value={currentProject.handledAccountant}
                     onChange={handleInputChange}
@@ -446,9 +579,9 @@ useEffect(() => {
                   />
                 </div>
                 <div className="modal-footer">
-                  <button 
-                    type="button" 
-                    className="btn btn-secondary" 
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
                     onClick={() => {
                       setShowModal(false);
                       resetForm();
@@ -457,7 +590,7 @@ useEffect(() => {
                     Close
                   </button>
                   <button type="submit" className="btn btn-primary">
-                    {isEditMode ? 'Update' : 'Save'}
+                    {isEditMode ? "Update" : "Save"}
                   </button>
                 </div>
               </form>
@@ -465,48 +598,169 @@ useEffect(() => {
           </div>
         </div>
       </div>
-      {showModal && <div className="modal-backdrop fade show"></div>}
-{/* EMI MODAL */}
-{/* EMI Plan Modal */}
-<div 
-  className={`modal fade ${showEmiModal ? 'show' : ''}`} 
-  style={{ display: showEmiModal ? 'block' : 'none' }}
-  tabIndex={-1}
+      {/* EMI MODAL */}
+
+      <div
+        className={`modal fade ${showEmiModal ? "show" : ""}`}
+        style={{ display: showEmiModal ? "block" : "none" }}
+        tabIndex={-1}
+      >
+        <div className="modal-dialog modal-dialog-centered modal-lg">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title">EMI Plan</h5>
+              <button
+                type="button"
+                className="btn-close"
+                onClick={() => setShowEmiModal(false)}
+                aria-label="Close"
+              />
+            </div>
+            <div className="modal-body">
+              <p>
+                <strong>Project:</strong>{" "}
+                {selectedProjectForEmi?.clientDetails?.name || "-"}
+              </p>
+              <p>
+                <strong>Start Date:</strong>{" "}
+                {new Date(
+                  selectedProjectForEmi?.startDate
+                ).toLocaleDateString()}
+              </p>
+
+              {emiData && emiData.length > 0 ? (
+                <div className="table-responsive">
+                  <table className="table table-bordered mt-3">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Monthly EMI Amount</th>
+                        <th>EMI Date</th>
+                        <th>Due Date</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {emiData.map((emi, index) => (
+                        <tr key={emi._id}>
+                          <td>{index + 1}</td>
+                          <td>₹{emi.monthlyEmiAmount}</td>
+                          <td>{new Date(emi.emiDate).toLocaleDateString()}</td>
+                          <td>{new Date(emi.dueDate).toLocaleDateString()}</td>
+
+                          <td>
+                            <span
+                              className={`badge ${
+                                emi.status === "pending"
+                                  ? "bg-warning"
+                                  : "bg-success"
+                              }`}
+                            >
+                              {emi.status}
+                            </span>
+                          </td>
+                          <td>
+<button
+  className="btn btn-sm btn-primary"
+  onClick={() => handleMarkAsPaid(emi.projectId)}
 >
-  <div className="modal-dialog modal-dialog-centered">
-    <div className="modal-content">
-      <div className="modal-header">
-        <h5 className="modal-title">EMI Plan</h5>
-        <button 
-          type="button" 
-          className="btn-close" 
-          onClick={() => setShowEmiModal(false)}
-          aria-label="Close"
-        />
-      </div>
-      <div className="modal-body">
-        {/* You can show project name or custom EMI details here */}
-        <p>Project: <strong>{selectedProjectForEmi?.clientDetails?.name || '-'}</strong></p>
-        <p>Start Date: {new Date(selectedProjectForEmi?.startDate).toLocaleDateString()}</p>
-        {/* Add EMI form or details here */}
-        <div className="mb-3">
-          <label className="form-label">EMI Amount</label>
-          <input type="number" className="form-control" />
-        </div>
-        <div className="mb-3">
-          <label className="form-label">Installments</label>
-          <input type="number" className="form-control" />
+  Paid
+</button>
+                            </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <p>No EMI records available.</p>
+              )}
+            </div>
+            <div className="modal-footer">
+              <button
+                className="btn btn-secondary"
+                onClick={() => setShowEmiModal(false)}
+              >
+                Close
+              </button>
+            </div>
+          </div>
         </div>
       </div>
-      <div className="modal-footer">
-        <button className="btn btn-secondary" onClick={() => setShowEmiModal(false)}>Close</button>
-        <button className="btn btn-primary">Save EMI Plan</button>
+
+{historyModal && (
+  <div className="modal fade show d-block" tabIndex="-1">
+    <div className="modal-dialog modal-lg">
+      <div className="modal-content">
+        <div className="modal-header">
+          <h5 className="modal-title">EMI History</h5>
+          <button
+            type="button"
+            className="btn-close"
+            onClick={() => setHistoryModal(false)}
+          ></button>
+        </div>
+        <div className="modal-body">
+          {historyData.length > 0 ? (
+            <table className="table table-striped">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>EMI Date</th>
+                  <th>Due Date</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {historyData.map((emi, index) => (
+                  <tr key={emi._id}>
+                    <td>{index + 1}</td>
+                    <td>{new Date(emi.emiDate).toLocaleDateString()}</td>
+                    <td>{new Date(emi.dueDate).toLocaleDateString()}</td>
+                    <td>₹{emi.monthlyEmiAmount}</td>
+                    <td>
+                      <span
+                        className={`badge bg-${
+                          emi.status === "pending"
+                            ? "warning"
+                            : emi.status === "paid"
+                            ? "success"
+                            : "secondary"
+                        }`}
+                      >
+                        {emi.status}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <p>No EMI history available.</p>
+          )}
+        </div>
+        <div className="modal-footer">
+          <button
+            className="btn btn-secondary"
+            onClick={() => setHistoryModal(false)}
+          >
+            Close
+          </button>
+        </div>
       </div>
     </div>
   </div>
-</div>
-{showEmiModal && <div className="modal-backdrop fade show"></div>}
+)}
 
+
+
+      {showEmiModal && <div className="modal-backdrop fade show"></div>}
+
+      {showEmiModal && <div className="modal-backdrop fade show"></div>}
+
+      {showEmiModal && <div className="modal-backdrop fade show"></div>}
     </>
   );
 }

@@ -169,17 +169,18 @@ const ClientPage = () => {
                                       <ul className="dropdown-menu" aria-labelledby={`dropdown-${client._id}`}>
                                         <li>
                                           <button className="dropdown-item" onClick={() => handleEdit(client)}>
-                                            Edit
+                                          Edit
                                           </button>
                                         </li>
                                         <li>
                                         <button
   className="dropdown-item"
   onClick={() => {
-    setSelectedClientId(client._id); // Save selected client ID
+    setSelectedClientId(client._id); 
+
     setCurrentProject(prev => ({
       ...prev,
-      clientId: client._id, // Set client ID in project
+      clientId: client._id, 
       name: "",
       startedDate: "",
       status: "active",
@@ -190,7 +191,7 @@ const ClientPage = () => {
       handledAccountant: "",
       isBlocked: false
     }));
-    setShowModal(true); // Show modal
+    setShowModal(true); 
   }}
 >
   Add Project

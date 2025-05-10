@@ -4,9 +4,6 @@ import {
   basePath,
   clientlistPath,
   projectlistPath,
- 
- 
-
 } from "../services/UrlPaths";
 import { Link, useLocation } from "react-router-dom";
 
