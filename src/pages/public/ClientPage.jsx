@@ -31,6 +31,8 @@ const ClientPage = () => {
   const getClientList = async (page = 1, limit = 10) => {
     try {
       const response = await ApiCall("get", "projects/clients");
+      console.log(response,"getClientListgetClientList");
+      
       const data = response.message.data;
       setClientList(data.docs);
       setPagination({
@@ -212,6 +214,82 @@ const ClientPage = () => {
                           </tbody>
                         </table>
                       </div>
+                      <div className="card-footer">
+                          <div className="row align-items-center">
+                            <div className="col-md-6">
+                              <div>
+                                Showing{" "}
+                                {(pagination.page - 1) * pagination.limit + 1}{" "}
+                                to{" "}
+                                {Math.min(
+                                  pagination.page * pagination.limit,
+                                  pagination.totalDocs
+                                )}{" "}
+                                of {pagination.totalDocs} entries
+                              </div>
+                            </div>
+                            <div className="col-md-6">
+                              <nav aria-label="Page navigation">
+                                <ul className="pagination justify-content-end mb-0">
+                                  <li
+                                    className={`page-item ${
+                                      !pagination.hasPrevPage ? "disabled" : ""
+                                    }`}
+                                  >
+                                    <button
+                                      className="page-link"
+                                      onClick={() =>
+                                        handlePageChange(pagination.page - 1)
+                                      }
+                                      disabled={!pagination.hasPrevPage}
+                                    >
+                                      Previous
+                                    </button>
+                                  </li>
+
+                                  {Array.from(
+                                    { length: pagination.totalPages },
+                                    (_, i) => i + 1
+                                  ).map((pageNum) => (
+                                    <li
+                                      key={pageNum}
+                                      className={`page-item ${
+                                        pagination.page === pageNum
+                                          ? "active"
+                                          : ""
+                                      }`}
+                                    >
+                                      <button
+                                        className="page-link"
+                                        onClick={() =>
+                                          handlePageChange(pageNum)
+                                        }
+                                      >
+                                        {pageNum}
+                                      </button>
+                                    </li>
+                                  ))}
+
+                                  <li
+                                    className={`page-item ${
+                                      !pagination.hasNextPage ? "disabled" : ""
+                                    }`}
+                                  >
+                                    <button
+                                      className="page-link"
+                                      onClick={() =>
+                                        handlePageChange(pagination.page + 1)
+                                      }
+                                      disabled={!pagination.hasNextPage}
+                                    >
+                                      Next
+                                    </button>
+                                  </li>
+                                </ul>
+                              </nav>
+                            </div>
+                          </div>
+                        </div>
                     </div>
                   </div>
                 </div>
