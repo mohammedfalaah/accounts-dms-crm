@@ -10,12 +10,14 @@ import {
   basePath,
   clientlistPath,
   loginPath,
+  monthlyEmiPath,
   projectlistPath,
  
 } from "./services/UrlPaths";
 import PrivateRoute from "./utils/PrivateRoute";
 import JoblistPage from "./pages/JoblistPage";
 import ClientPage from "./pages/public/ClientPage";
+import MonthlyEmiPage from "./pages/MonthlyEmiPage";
 function App() {
   return (
     <div>
@@ -33,10 +35,8 @@ function App() {
           <Route index element={<PageDashboard />} />
           <Route path={projectlistPath} element={<JoblistPage />} />
           <Route path={clientlistPath} element={<ClientPage />} />
+          <Route path={monthlyEmiPath} element={<MonthlyEmiPage />} />
 
-         
-        
-         
         </Route>
         <Route path="*" element={<PageNotFound />} />
       </Routes>

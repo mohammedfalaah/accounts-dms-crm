@@ -50,8 +50,8 @@ function PageLogin() {
       const role = response.message?.data?.userDetails?.role;
       console.log(role,"rolerolerole");
       
-  
-      if (role !== "accounts" && "district-manager") {
+  // if (role !== "accounts" && role !== "district-manager") {
+      if (role !== "accounts" && role !== "district-manager") {
         ShowMessage("Access Denied: Only accounts and district-manager can log in.", "error");
         return;
       }

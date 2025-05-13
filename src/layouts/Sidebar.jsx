@@ -3,6 +3,7 @@ import { ContextDatas } from "../services/Context";
 import {
   basePath,
   clientlistPath,
+  monthlyEmiPath,
   projectlistPath,
 } from "../services/UrlPaths";
 import { Link, useLocation } from "react-router-dom";
@@ -79,13 +80,13 @@ function Sidebar() {
                   </Link>
                 </li>
 
-                <li className={urlPath.includes("order") ? "active" : ""}>
+                <li className={urlPath.includes("monthly-emi") ? "active" : ""}>
                   <Link
-                    // to={basePath + ordersPath}
-                    // onClick={() => setUrlPath(basePath + ordersPath)}
+                    to={basePath + monthlyEmiPath}
+                    onClick={() => setUrlPath(basePath + monthlyEmiPath)}
                   >
                     <span className="nav-icon uil uil-clipboard-alt" />
-                    <span className="menu-text">Orders</span>
+                    <span className="menu-text">Monthly Emi's</span>
                   </Link>
                 </li>
 

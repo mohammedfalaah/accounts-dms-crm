@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { ContextDatas } from "../services/Context";
 import { ApiCall } from "../services/ApiCall";
+import { showToast } from "../utils/Toast";
 
 function JoblistPage() {
   const [projectsList, setProjectsList] = useState([]);
@@ -32,6 +33,25 @@ function JoblistPage() {
   });
   const [emiData, setEmiData] = useState(null);
   const [selectedProjectId, setSelectedProjectId] = useState(null);
+
+  const handleBlockStatusChange = async (projectId, status) => {
+  try {
+    const response = await ApiCall("put", "projects/status", {
+      projectId,
+      status,
+    });
+    showToast("Block/unblock response:",response);
+    getProjectList(pagination.page, pagination.limit); // Refresh list
+  } catch (error) {
+    console.error("Error updating block status:", error);
+    setError(
+      `Error ${status === "block" ? "blocking" : "unblocking"} project: ${
+        error.response?.data?.message || error.message
+      }`
+    );
+  }
+};
+
 
   const handleHistoryClick = async (projectId) => {
     setHistoryModal(true);
@@ -332,6 +352,19 @@ setHistoryData(response?.message?.data?.docs || []);
                                             EMI History
                                           </button>
                                         </li>
+                                        <li>
+  <button
+    className="dropdown-item"
+    onClick={() =>
+      handleBlockStatusChange(
+        project._id,
+        project.isBlocked ? "unblock" : "block"
+      )
+    }
+  >
+    {project.isBlocked ? "Unblock" : "Block"}
+  </button>
+</li>
 
                                         <li>
                                           <button
