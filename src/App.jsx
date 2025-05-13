@@ -9,6 +9,7 @@ import PageNotFound from "./pages/public/PageNotFound";
 import {
   basePath,
   clientlistPath,
+  complaintsPath,
   loginPath,
   monthlyEmiPath,
   projectlistPath,
@@ -18,6 +19,7 @@ import PrivateRoute from "./utils/PrivateRoute";
 import JoblistPage from "./pages/JoblistPage";
 import ClientPage from "./pages/public/ClientPage";
 import MonthlyEmiPage from "./pages/MonthlyEmiPage";
+import ComplaintsPage from "./pages/public/ComplaintsPage";
 function App() {
   return (
     <div>
@@ -36,6 +38,7 @@ function App() {
           <Route path={projectlistPath} element={<JoblistPage />} />
           <Route path={clientlistPath} element={<ClientPage />} />
           <Route path={monthlyEmiPath} element={<MonthlyEmiPage />} />
+          <Route path={complaintsPath} element={<ComplaintsPage />} />
 
         </Route>
         <Route path="*" element={<PageNotFound />} />

@@ -3,4 +3,5 @@ export const basePath = "/";
 export const projectlistPath = "project-list";
 export const clientlistPath = "client-list"
 export const monthlyEmiPath = "monthly-emi"
+export const complaintsPath = "complaints"
 

@@ -3,6 +3,7 @@ import { ContextDatas } from "../services/Context";
 import {
   basePath,
   clientlistPath,
+  complaintsPath,
   monthlyEmiPath,
   projectlistPath,
 } from "../services/UrlPaths";
@@ -90,13 +91,13 @@ function Sidebar() {
                   </Link>
                 </li>
 
-                <li className={urlPath.includes("payments") ? "active" : ""}>
+                <li className={urlPath.includes("complaints") ? "active" : ""}>
                   <Link
-                    // to={basePath + paymentsPath}
-                    // onClick={() => setUrlPath(basePath + paymentsPath)}
+                    to={basePath + complaintsPath}
+                    onClick={() => setUrlPath(basePath + complaintsPath)}
                   >
                     <span className="nav-icon uil uil-credit-card" />
-                    <span className="menu-text">Payments</span>
+                    <span className="menu-text">complaints</span>
                   </Link>
                 </li>
               </>
